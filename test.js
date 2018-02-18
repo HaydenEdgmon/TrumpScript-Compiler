@@ -1,1 +1,0 @@
-var thisThing = 2;

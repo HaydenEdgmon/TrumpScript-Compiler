@@ -1,0 +1,10 @@
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\bin\Debug\netcoreapp2.0\application.deps.json
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\bin\Debug\netcoreapp2.0\application.runtimeconfig.json
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\bin\Debug\netcoreapp2.0\application.runtimeconfig.dev.json
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\bin\Debug\netcoreapp2.0\application.dll
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\bin\Debug\netcoreapp2.0\application.pdb
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\obj\Debug\netcoreapp2.0\application.csproj.CoreCompileInputs.cache
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\obj\Debug\netcoreapp2.0\application.AssemblyInfoInputs.cache
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\obj\Debug\netcoreapp2.0\application.AssemblyInfo.cs
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\obj\Debug\netcoreapp2.0\application.dll
+C:\Users\howto\OneDrive\GitHub Repositories\TrumpScript-Compiler\application\obj\Debug\netcoreapp2.0\application.pdb
