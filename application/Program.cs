@@ -10,7 +10,15 @@ namespace application
         {
             StreamReader sr = new StreamReader("toParse.txt");
             application.Scanner theScanner = new application.Scanner(sr);
-            theScanner.printToken();
+            while(sr.Peek() != -1){
+                if(sr.Peek() == 32){
+                    sr.Read();
+                }
+                else{
+                    theScanner.printSeperatedBySpace();
+                }
+            }
+            sr.Close();
             Console.WriteLine("Hello World!");
         }
     }
@@ -23,6 +31,19 @@ namespace application
         }
         public void printToken(){
             Console.WriteLine(thisToken);
+        }
+        public void printPeek(){
+            Console.WriteLine((char)reader.Read());
+        }
+        public void printSeperatedBySpace(){
+            char[] printString = new char[50];
+            int i = 0;
+            while(reader.Peek()!=32){
+                printString[i] = (char)reader.Read();
+                i++;
+            }
+            string s = new string(printString);
+            Console.WriteLine(s);
         }
     }
 }
