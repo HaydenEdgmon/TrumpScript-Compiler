@@ -52,10 +52,6 @@ namespace application
                     printString[i] = (char)reader.Read();
                     currentLength = -1;
                 }
-                else{
-                    currentLength = -1;
-                    printString[i] = (char)reader.Read();
-                }
                 i++;
                 s = new string(printString);
             }
@@ -68,73 +64,43 @@ namespace application
 
             return isKeyword;
         }
-        public bool checkConstant(){
-            bool isConstant = false;
+        public string checkConstant(){
+            string constString = "";
+            //
             if((char)reader.Peek() =='1'){
-                isConstant = true;
+                constString = constString + (char)reader.Read();
             }
-            case((char)reader.peek()){
-                // case '0':
-                //     if(currentLength < 1){
-                //         Console.WriteLine("@@@@@@@Not a constant@@@@@");
-                //         isConstant = false;
-                //     }
-                //     else{
-                //         currentLength++;
-                //         isConstant = true;
-                //     }
-                //     break;
-                // case '1':
-                //     currentLength++;
-                //     isConstant = true;
-                //     break;
-                // case '2':
-                //     currentLength++;
-                //     Console.WriteLine("222222222222");
-                //     isConstant = true;
-                //     break;
-            //     case '3':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '4':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '5':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '6':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '7':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '8':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '9':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-                // case ' ':
-                //     if(currentLength > 6){
-                //         isConstant = true;
-                //     }
-                //     else{
-                //         Console.WriteLine("@@@@@@@Not a constant@@@@@");
-                //         isConstant = false;
-                //     }
-            //     default:
-            //         Console.WriteLine("@@@@@@@Not a constant@@@@@");
-            //         isConstant = false;
-            //         break;
+            else if((char)reader.Peek() =='2'){
+                constString = constString + (char)reader.Read();
             }
-            return isConstant;
+            else if((char)reader.Peek() =='3'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='4'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='5'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='6'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='7'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='8'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='9'){
+                constString = constString + (char)reader.Read();
+            }
+            else if((char)reader.Peek() =='0'){
+                //check if leading 0
+                constString = constString + (char)reader.Read();
+            }
+            //check token seperators
+            //check if letter and throw error
+            return constString;
         }
     }
 }
