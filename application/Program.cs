@@ -44,15 +44,13 @@ namespace application
                 if(reader.Peek() == -1){
                     break;
                 }
-                if(currentLength != -1){
-                    if(checkConstant()){
-                        printString[i] = (char)reader.Read();
-                        Console.WriteLine("============================================");
-                    }
-                    else{
-                        printString[i] = (char)reader.Read();
-                        currentLength = -1;
-                    }
+                if(checkConstant()){
+                    //printString[i] = (char)reader.Read();
+                    Console.WriteLine("============================================");
+                }
+                else{
+                    printString[i] = (char)reader.Read();
+                    currentLength = -1;
                 }
                 else{
                     currentLength = -1;
@@ -75,25 +73,26 @@ namespace application
             if((char)reader.Peek() =='1'){
                 isConstant = true;
             }
-            // case((char)reader.peek()){
-            //     case '0':
-            //         if(currentLength < 1){
-            //             Console.WriteLine("@@@@@@@Not a constant@@@@@");
-            //             isConstant = false;
-            //         }
-            //         else{
-            //             currentLength++;
-            //             isConstant = true;
-            //         }
-            //         break;
-            //     case '1':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
-            //     case '2':
-            //         currentLength++;
-            //         isConstant = true;
-            //         break;
+            case((char)reader.peek()){
+                // case '0':
+                //     if(currentLength < 1){
+                //         Console.WriteLine("@@@@@@@Not a constant@@@@@");
+                //         isConstant = false;
+                //     }
+                //     else{
+                //         currentLength++;
+                //         isConstant = true;
+                //     }
+                //     break;
+                // case '1':
+                //     currentLength++;
+                //     isConstant = true;
+                //     break;
+                // case '2':
+                //     currentLength++;
+                //     Console.WriteLine("222222222222");
+                //     isConstant = true;
+                //     break;
             //     case '3':
             //         currentLength++;
             //         isConstant = true;
@@ -122,19 +121,19 @@ namespace application
             //         currentLength++;
             //         isConstant = true;
             //         break;
-            //     case ' ':
-            //         if(currentLength > 6){
-            //             isConstant = true;
-            //         }
-            //         else{
-            //             Console.WriteLine("@@@@@@@Not a constant@@@@@");
-            //             isConstant = false;
-            //         }
+                // case ' ':
+                //     if(currentLength > 6){
+                //         isConstant = true;
+                //     }
+                //     else{
+                //         Console.WriteLine("@@@@@@@Not a constant@@@@@");
+                //         isConstant = false;
+                //     }
             //     default:
             //         Console.WriteLine("@@@@@@@Not a constant@@@@@");
             //         isConstant = false;
             //         break;
-            // }
+            }
             return isConstant;
         }
     }
