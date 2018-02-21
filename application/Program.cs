@@ -40,22 +40,34 @@ namespace application
             while(reader.Peek() == 32){
                 reader.Read();
             }
-            while(reader.Peek()!=32){
-                if(reader.Peek() == -1){
-                    break;
-                }
-                if(checkConstant()){
-                    //printString[i] = (char)reader.Read();
-                    Console.WriteLine("============================================");
+            if(47 < reader.Peek() && reader.Peek() < 58){
+                s = checkConstant();
+                if(s != "#*ERROR*#"){
+                    Console.WriteLine("+++++++++++++++++++++++");
+                    return s;
                 }
                 else{
-                    printString[i] = (char)reader.Read();
-                    currentLength = -1;
+                    s = s + " IS NOT A CONSTANT";
+                    return s;
                 }
-                i++;
-                s = new string(printString);
             }
-            return s;
+            else if(isNextSpecialChar()){
+                Console.WriteLine("The following is a token seperator");
+                s = "" + (char)reader.Read();
+                return s;
+            }//check for string and comments
+            else{
+                while(reader.Peek()!=32 ){
+                    if(reader.Peek() == -1){
+                        break;
+                    }
+                    printString[i] = (char)reader.Read();
+                    i++;
+                    s = new string(printString);
+                }
+                return s;
+            }         
+            
         }
 
         public bool checkKeyword(){
@@ -66,41 +78,111 @@ namespace application
         }
         public string checkConstant(){
             string constString = "";
-            //
-            if((char)reader.Peek() =='1'){
-                constString = constString + (char)reader.Read();
+            while(reader.Peek() != 32){
+                if((char)reader.Peek() =='1'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='2'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='3'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='4'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='5'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='6'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='7'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='8'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='9'){
+                    currentLength++;
+                    constString = constString + (char)reader.Read();
+                }
+                else if((char)reader.Peek() =='0'){
+                    if(currentLength < 1){
+                        //make error type
+                        constString = "#*ERROR*#";
+                        break;
+                    }
+                    else{
+                        currentLength++;
+                        constString = constString + (char)reader.Read();
+                    }
+                }
+                else if(isNextSpecialChar()){
+                    break;
+                }
+                else{
+                    constString = "#*ERROR*#";
+                    break;
+                    //make error type
+                    //not a constant, return error
+                }
             }
-            else if((char)reader.Peek() =='2'){
-                constString = constString + (char)reader.Read();
+            if(constString.Length < 7){
+                constString = "#*ERROR*#";
             }
-            else if((char)reader.Peek() =='3'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='4'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='5'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='6'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='7'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='8'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='9'){
-                constString = constString + (char)reader.Read();
-            }
-            else if((char)reader.Peek() =='0'){
-                //check if leading 0
-                constString = constString + (char)reader.Read();
+            else if(constString == "1000000"){
+                Console.Write("1000000 ");
+                constString = "#*ERROR*#";
             }
             //check token seperators
-            //check if letter and throw error
             return constString;
+           
+        }
+
+        public char makeLowerCase(){
+            char returnChar = (char)(reader.Read() + 32);
+            return returnChar;
+        }
+        public bool isNextSpecialChar(){
+            bool isSpecial = false;
+            if(reader.Peek()==44){
+                //ASCII value of ','
+                isSpecial = true;
+            }
+            else if(reader.Peek()==59){
+                //ASCII value of ';'
+                isSpecial = true;
+            }
+            else if(reader.Peek()==58){
+                //ASCII value of ':'
+                isSpecial = true;
+            }
+            else if(reader.Peek()==33){
+                //ASCII value of '!'
+                isSpecial = true;
+            }
+            else if(reader.Peek()==63){
+                //ASCII value of ';'
+                isSpecial = true;
+            }
+            else if(reader.Peek()==40){
+                //ASCII value of '('
+                isSpecial = true;
+            }
+            else if(reader.Peek()==41){
+                //ASCII value of ')'
+                isSpecial = true;
+            }
+            return isSpecial;
         }
     }
 }

@@ -664,23 +664,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\IT Store\\.nuget\\packages\\": {},
+    "C:\\Users\\howto\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\IT Store\\Documents\\git\\TrumpScript-Compiler\\application\\application.csproj",
+      "projectUniqueName": "C:\\Users\\howto\\Documents\\git\\TrumpScript-Compiler\\application\\application.csproj",
       "projectName": "application",
-      "projectPath": "C:\\Users\\IT Store\\Documents\\git\\TrumpScript-Compiler\\application\\application.csproj",
-      "packagesPath": "C:\\Users\\IT Store\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\IT Store\\Documents\\git\\TrumpScript-Compiler\\application\\obj\\",
+      "projectPath": "C:\\Users\\howto\\Documents\\git\\TrumpScript-Compiler\\application\\application.csproj",
+      "packagesPath": "C:\\Users\\howto\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\howto\\Documents\\git\\TrumpScript-Compiler\\application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\IT Store\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\howto\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
