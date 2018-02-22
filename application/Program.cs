@@ -9,10 +9,10 @@ namespace application
         static void Main(string[] args)
         {
             StreamReader sr = new StreamReader("toParse.txt");
-            
+            string token;
             while(sr.Peek() != -1){
                 application.Scanner theScanner = new application.Scanner(sr);
-                string token = theScanner.detectToken();
+                token = theScanner.detectToken();
                 Console.WriteLine(token);
             }
             sr.Close();
@@ -34,13 +34,18 @@ namespace application
             Console.WriteLine((char)reader.Read());
         }
         public string detectToken(){
+            Console.WriteLine(reader.Peek());
             char[] printString = new char[50];
             string s = "";
             int i = 0;
             while(reader.Peek() == 32){
                 reader.Read();
             }
+            while(reader.Peek() == 13){
+                reader.Read();
+            }
             if(47 < reader.Peek() && reader.Peek() < 58){
+                //checking if token is a constant
                 s = checkConstant();
                 if(s != "#*ERROR*#"){
                     Console.WriteLine("+++++++++++++++++++++++");
@@ -52,22 +57,45 @@ namespace application
                 }
             }
             else if(isNextSpecialChar()){
+                // checkString if token is a special character
                 Console.WriteLine("The following is a token seperator");
                 s = "" + (char)reader.Read();
                 return s;
-            }//check for string and comments
+            }
+            else if(reader.Peek() == 34){
+                //checking for quoted string
+                s = checkString();
+                if(s != "#*ERROR*#"){
+                    Console.WriteLine("......string......");
+                    return s;
+                }
+                else{
+                    s = s + " IS NOT A CONSTANT";
+                    return s;
+                }
+            }
+            else if((char)reader.Peek() == '#'){
+                //line is a comment
+                Console.WriteLine("kajshbdkajshdkasjhd");
+                processComment();
+                return s;
+            }
             else{
                 while(reader.Peek()!=32 ){
                     if(reader.Peek() == -1){
                         break;
                     }
-                    printString[i] = (char)reader.Read();
-                    i++;
-                    s = new string(printString);
+                    if(!isNextSpecialChar()){
+                        printString[i] = (char)reader.Read();
+                        i++;
+                    }
+                    else{
+                        break;
+                    }
                 }
+                s = new string(printString);
                 return s;
             }         
-            
         }
 
         public bool checkKeyword(){
@@ -183,6 +211,23 @@ namespace application
                 isSpecial = true;
             }
             return isSpecial;
+        }
+        public string checkString(){
+            string returnString = "";
+            reader.Read();
+            while(reader.Peek() != 34){
+                if(isNextSpecialChar()){
+                    //detected end of token before quotation wasx closed
+                    return "#*ERROR*#";
+                }
+                else{
+                    returnString = returnString + (char)reader.Read();
+                }
+            }
+            return returnString;
+        }
+        public void processComment(){
+            reader.ReadLine();
         }
     }
 }
