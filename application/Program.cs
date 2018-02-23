@@ -34,7 +34,7 @@ namespace application
             Console.WriteLine((char)reader.Read());
         }
         public string detectToken(){
-            Console.WriteLine(reader.Peek());
+            
             char[] printString = new char[50];
             string s = "";
             int i = 0;
@@ -44,6 +44,8 @@ namespace application
             while(reader.Peek() == 13){
                 reader.Read();
             }
+            int k = reader.Peek();
+            Console.WriteLine(reader.Peek());
             if(47 < reader.Peek() && reader.Peek() < 58){
                 //checking if token is a constant
                 s = checkConstant();
@@ -85,7 +87,7 @@ namespace application
                     if(reader.Peek() == -1){
                         break;
                     }
-                    if(!isNextSpecialChar()){
+                    else if(!isNextSpecialChar()){
                         printString[i] = (char)reader.Read();
                         i++;
                     }
@@ -210,6 +212,10 @@ namespace application
                 //ASCII value of ')'
                 isSpecial = true;
             }
+            else if(nextIsNewLineChar()){
+                //ASCII value of '\n' or '\r'
+                isSpecial = true;
+            }
             return isSpecial;
         }
         public string checkString(){
@@ -228,6 +234,13 @@ namespace application
         }
         public void processComment(){
             reader.ReadLine();
+        }
+        public bool nextIsNewLineChar(){
+            bool returnBool = false;
+            if(reader.Peek() == 13 || reader.Peek() == 10){
+                returnBool = true;
+            }
+            return returnBool;
         }
     }
 }
