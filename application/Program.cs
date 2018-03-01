@@ -9,11 +9,11 @@ namespace application
         static void Main(string[] args)
         {
             StreamReader sr = new StreamReader("toParse.txt");
-            string token;
+            Token token;
             while(sr.Peek() != -1){
                 application.Scanner theScanner = new application.Scanner(sr);
                 token = theScanner.detectToken();
-                Console.WriteLine(token);
+                Console.WriteLine(token.ToString());
             }
             sr.Close();
             Console.WriteLine("Hello World!");
@@ -21,9 +21,11 @@ namespace application
     }
 
     class Scanner{
+        States state = States.INITIAL_STATE;
         StreamReader reader;
         string thisToken = "It Worked!";
         int currentLength = 0;
+        Token scannedToken;
         public Scanner(StreamReader passedReader){
             reader = passedReader;
         }
@@ -33,71 +35,346 @@ namespace application
         public void printPeek(){
             Console.WriteLine((char)reader.Read());
         }
-        public string detectToken(){
-            Console.WriteLine(reader.Peek());
-            char[] printString = new char[50];
-            string s = "";
-            int i = 0;
-            while(reader.Peek() == 32){
-                reader.Read();
-            }
-            while(reader.Peek() == 13){
-                reader.Read();
-            }
-            if(47 < reader.Peek() && reader.Peek() < 58){
-                //checking if token is a constant
-                s = checkConstant();
-                if(s != "#*ERROR*#"){
-                    Console.WriteLine("+++++++++++++++++++++++");
-                    return s;
-                }
-                else{
-                    s = s + " IS NOT A CONSTANT";
-                    return s;
+        public Token detectToken(){
+            string scannedString = "";
+            scannedToken = new Token(States.GENERIC_ERROR.ToString(), Type.ERROR);
+            if(nextCharIsWhitespace()){
+                while(nextCharIsWhitespace() && reader.Peek() != -1){
+                    reader.Read();
                 }
             }
-            else if(isNextSpecialChar()){
-                // checkString if token is a special character
-                Console.WriteLine("The following is a token seperator");
-                s = "" + (char)reader.Read();
-                return s;
-            }
-            else if(reader.Peek() == 34){
-                //checking for quoted string
-                s = checkString();
-                if(s != "#*ERROR*#"){
-                    Console.WriteLine("......string......");
-                    return s;
-                }
-                else{
-                    s = s + " IS NOT A CONSTANT";
-                    return s;
+            if((char)reader.Peek() == '#'){
+                while((char)reader.Peek() == '#'){
+                    //a single line as a comment
+                    processComment();
                 }
             }
-            else if((char)reader.Peek() == '#'){
-                //line is a comment
-                Console.WriteLine("kajshbdkajshdkasjhd");
-                processComment();
-                return s;
+            if(nextCharIsSpecial()){
+                state = States.SPECIAL_CHARACTER;
+                scannedString += (char)reader.Read();
+                scannedToken = new Token(scannedString, Type.SPECIAL_SYMBOL);
             }
-            else{
-                while(reader.Peek()!=32 ){
-                    if(reader.Peek() == -1){
+            while(!isEndOfToken() && scannedToken.TokenType != Type.SPECIAL_SYMBOL){
+                //Console.WriteLine(state.ToString());
+                switch(state){
+                    case States.INITIAL_STATE:
+                        if(reader.Peek() == 34){
+                            scannedString += (char)reader.Read();
+                            state = States.STRING_INVALID;
+                        }
+                        else if(reader.Peek() == 77 || reader.Peek() == 109){
+                            //m detected, check for keywords 'make' and 'more'
+                            if(reader.Peek() == 77){
+                                scannedString += getLowerCaseofNextLetter();
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                            }
+                            state = States.KEYWORD_M;
+                        }
+                        else if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_LENGTH_1;
+                        }
+                        else{
+                            if(64 < reader.Peek() && reader.Peek() < 91){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                            else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
                         break;
-                    }
-                    if(!isNextSpecialChar()){
-                        printString[i] = (char)reader.Read();
-                        i++;
+                    case States.STRING_INVALID:
+                        if(reader.Peek() != 34){
+                            scannedString += (char)reader.Read();
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.STRING_VALID;
+                        }
+                        break;
+                    case States.STRING_VALID:
+                        if(reader.Peek() == 34){
+                            scannedString += (char)reader.Read();
+                            state = States.STRING_INVALID;
+                        }
+                        break;
+                    case States.CONSTANT_LENGTH_1:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_LENGTH_2;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.CONSTANT_LENGTH_2:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_LENGTH_3;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.CONSTANT_LENGTH_3:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_LENGTH_4;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.CONSTANT_LENGTH_4:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_LENGTH_5;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.CONSTANT_LENGTH_5:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_LENGTH_6;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.CONSTANT_LENGTH_6:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.CONSTANT:
+                        if(47 < reader.Peek() && reader.Peek() < 58){
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.KEYWORD_M:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==65){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_MA;
+                            }
+                            else if(reader.Peek()==79){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_MO;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==97){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_MA;
+                            }
+                            else if(reader.Peek()==111){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_MO;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_MA:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==75){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_MAK;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==107){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_MAK;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_MAK:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==69){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==101){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_MO:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==82){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_MOR;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==114){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_MOR;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_MOR:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==69){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==101){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.ID:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            scannedString += getLowerCaseofNextLetter();
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            scannedString += (char)reader.Read();
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    default:
+                        scannedString += (char)reader.Read();
+                        break;
+                }
+            }
+            if(isInAcceptingState(state)){
+                if(state == States.CONSTANT){
+                    if(scannedString == "1000000"){
+                        state = States.CONSTANT_ERROR;
+                        scannedToken = new Token(state.ToString(), Type.ERROR);
                     }
                     else{
-                        break;
+                        scannedToken = new Token(scannedString, Type.CONSTANT); 
                     }
                 }
-                s = new string(printString);
-                return s;
-            }         
+                else if(state == States.STRING_VALID){
+                    scannedToken = new Token(scannedString, Type.STRING); 
+                }
+                else if(state == States.ID){
+                    scannedToken = new Token(scannedString, Type.ID); 
+                }
+                else if(state == States.SPECIAL_CHARACTER){
+                    scannedToken = new Token(scannedString, Type.SPECIAL_SYMBOL); 
+                }
+                else if(state.ToString().Substring(0, 7) == "KEYWORD"){
+                    if(state.ToString() == "KEYWORD"){
+                        scannedToken = new Token(scannedString, Type.KEYWORD);
+                    }
+                    else{
+                        scannedToken = new Token(scannedString, Type.ID);
+                    }
+                }
+            }
+            else{
+                //print error here?
+                scannedToken = new Token(state.ToString(), Type.ERROR);
+            }
+            return scannedToken;
         }
-
+        public bool isEndOfToken(){
+            //Console.WriteLine(reader.Peek());
+            return nextCharIsSpecial() 
+                || nextCharIsWhitespace() 
+                || reader.Peek() == -1 
+                || (char)reader.Peek() == '#';
+        }
+        public bool isInAcceptingState(States currentState){
+            return (currentState == States.STRING_VALID) 
+                || (currentState == States.CONSTANT) 
+                || (currentState == States.ID)
+                || (currentState == States.SPECIAL_CHARACTER)
+                || (currentState.ToString().Substring(0, 7) == "KEYWORD");
+        }
         public bool checkKeyword(){
             bool isKeyword = false;
 
@@ -154,7 +431,7 @@ namespace application
                         constString = constString + (char)reader.Read();
                     }
                 }
-                else if(isNextSpecialChar()){
+                else if(nextCharIsSpecial()){
                     break;
                 }
                 else{
@@ -168,19 +445,34 @@ namespace application
                 constString = "#*ERROR*#";
             }
             else if(constString == "1000000"){
-                Console.Write("1000000 ");
+               // Console.Write("1000000 ");
                 constString = "#*ERROR*#";
             }
             //check token seperators
             return constString;
            
         }
-
-        public char makeLowerCase(){
+        public char getLowerCaseofNextLetter(){
             char returnChar = (char)(reader.Read() + 32);
             return returnChar;
         }
-        public bool isNextSpecialChar(){
+        public bool nextCharIsWhitespace(){
+            bool isWhitespace = false;
+            if(reader.Peek() == 32){
+                isWhitespace = true;
+            }
+            if(reader.Peek() == 9){
+                isWhitespace = true;
+            }
+            if(reader.Peek() == 10){
+                isWhitespace = true;
+            }
+            if(reader.Peek() == 13){
+                isWhitespace = true;
+            }
+            return isWhitespace;
+        }
+        public bool nextCharIsSpecial(){
             bool isSpecial = false;
             if(reader.Peek()==44){
                 //ASCII value of ','
@@ -210,13 +502,17 @@ namespace application
                 //ASCII value of ')'
                 isSpecial = true;
             }
+            else if(nextIsNewLineChar()){
+                //ASCII value of '\n' or '\r'
+                isSpecial = true;
+            }
             return isSpecial;
         }
         public string checkString(){
-            string returnString = "";
+            string returnString = "\"";
             reader.Read();
             while(reader.Peek() != 34){
-                if(isNextSpecialChar()){
+                if(nextCharIsSpecial()){
                     //detected end of token before quotation wasx closed
                     return "#*ERROR*#";
                 }
@@ -224,10 +520,55 @@ namespace application
                     returnString = returnString + (char)reader.Read();
                 }
             }
+            returnString = returnString + "\"";
             return returnString;
         }
         public void processComment(){
             reader.ReadLine();
         }
+        public bool nextIsNewLineChar(){
+            bool returnBool = false;
+            if(reader.Peek() == 13 || reader.Peek() == 10){
+                returnBool = true;
+            }
+            return returnBool;
+        }
+    }
+    class Token{
+        string lexeme;
+        Type tokenType;
+        public Token(string passedLexeme, Type passedType){
+            lexeme = passedLexeme;
+            tokenType = passedType;
+        }
+        public string Lexeme{
+            get{
+                return lexeme;
+            }
+        }
+        public Type TokenType{
+            get{
+                return tokenType;
+            }
+        }
+        override
+        public string ToString(){
+            return "Lexeme: " + lexeme + " Type: " + tokenType.ToString();
+        }
+    }
+    enum Type {ID, CONSTANT, STRING, KEYWORD, SPECIAL_SYMBOL, ERROR};
+    enum States{
+        INITIAL_STATE,
+        GENERIC_ERROR,
+        SPECIAL_CHARACTER,
+        //string states
+        STRING_INVALID, STRING_VALID,
+        //Constant states
+        CONSTANT_LENGTH_1, CONSTANT_LENGTH_2, CONSTANT_LENGTH_3, CONSTANT_LENGTH_4, CONSTANT_LENGTH_5, CONSTANT_LENGTH_6, CONSTANT, CONSTANT_ERROR,
+        ID,
+        INVALID_ID,
+        KEYWORD,
+        KEYWORD_M, KEYWORD_MA, KEYWORD_MO, KEYWORD_MAK, KEYWORD_MOR, 
+        SOMETHING_ELSE
     }
 }
