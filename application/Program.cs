@@ -59,568 +59,611 @@ namespace application
                 scannedSymbol = getNextCharacter();
                 switch(state){
                     case States.INITIAL_STATE:
-                        
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == '\"'){
-                            scannedString += scannedSymbol;
                             state = States.STRING_INVALID;
                         }
                         else if(scannedSymbol == 'a'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_A;
                         }
                         else if(scannedSymbol == 'g'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_G;
                         }
+                        else if(scannedSymbol == 'i'){
+                            state = States.KEYWORD_I;
+                        }
                         else if(scannedSymbol == 'm'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_M;
                         }
                         else if(scannedSymbol == 'p'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_P;
                         }
+                        else if(scannedSymbol == 't'){
+                            state = States.KEYWORD_T;
+                        }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_LENGTH_1;
                         }
-                        else{
-                            scannedString += scannedSymbol;
-                            state = States.INVALID_ID;
+                        else{  
+                            state = States.GENERIC_ERROR;
                         }
                         break;
                     case States.STRING_INVALID:
-                        if(scannedSymbol != '\"'){
-                            scannedString += scannedSymbol;
-                        }
-                        else{
-                            scannedString += scannedSymbol;
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == '\"'){
                             state = States.STRING_VALID;
                         }
                         break;
                     case States.STRING_VALID:
-                        if(scannedSymbol != '\"'){
-                            scannedString += scannedSymbol;
-                            state = States.STRING_INVALID;
-                        }
+                        scannedString += scannedSymbol;
+                        state = States.GENERIC_ERROR;
                         break;
                     case States.CONSTANT_LENGTH_1:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_LENGTH_2;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.CONSTANT_LENGTH_2:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_LENGTH_3;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.CONSTANT_LENGTH_3:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_LENGTH_4;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.CONSTANT_LENGTH_4:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_LENGTH_5;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.CONSTANT_LENGTH_5:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_LENGTH_6;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.CONSTANT_LENGTH_6:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.CONSTANT:
+                        scannedString += scannedSymbol;
                         if(thisCharIsADigit(scannedSymbol)){
                             //next character is a number,
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.CONSTANT_ERROR;
                         }
                         break;
                     case States.KEYWORD:
+                        scannedString += scannedSymbol;
                         if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_A:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'g'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AG;
                         }
                         else if(scannedSymbol == 'm'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AM;
                         }
                         else if(scannedSymbol == 'n'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AN;
                         }
+                        else if(scannedSymbol == 's'){
+                            state = States.KEYWORD;
+                        }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AG:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'a'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AGA;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AGA:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'i'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AGAI;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AGAI:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'n'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AM:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'e'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AME;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AME:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'r'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AMER;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AMER:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'i'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AMERI;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AMERI:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'c'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_AMERIC;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AMERIC:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'a'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_AN:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'd'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_G:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'r'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_GR;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_GR:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'e'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_GRE;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_GRE:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'a'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_GREA;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_GREA:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 't'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_I:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 's'){
+                            state = States.KEYWORD;
+                        }
+                        else if(scannedSymbol == 'f'){
+                            state = States.KEYWORD;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_M:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'a'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_MA;
                         }
                         else if(scannedSymbol == 'o'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_MO;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_MA:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'k'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_MAK;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_MAK:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'e'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_MO:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'r'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_MOR;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_MOR:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'e'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_P:
-                        if(scannedSymbol == 'r'){
-                            scannedString += scannedSymbol;
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'l'){
+                            state = States.KEYWORD_PL;
+                        }
+                        else if(scannedSymbol == 'r'){
                             state = States.KEYWORD_PR;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_PL:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'u'){
+                            state = States.KEYWORD_PLU;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_PLU:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 's'){
+                            state = States.KEYWORD;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PR:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'o'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PRO;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PRO:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'g'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROG;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROG:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'r'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROGR;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROGR:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'a'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROGRA;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROGRA:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'm'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROGRAM;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROGRAM:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'm'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROGRAMM;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROGRAMM:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'i'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROGRAMMI;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROGRAMMI:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'n'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD_PROGRAMMIN;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_PROGRAMMIN:
+                        scannedString += scannedSymbol;
                         if(scannedSymbol == 'g'){
-                            scannedString += scannedSymbol;
                             state = States.KEYWORD;
                         }
                         else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_T:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'e'){
+                            state = States.KEYWORD_TE;
+                        }
+                        else if(scannedSymbol == 'i'){
+                            state = States.KEYWORD_TI;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_TE:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'l'){
+                            state = States.KEYWORD_TEL;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_TEL:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'l'){
+                            state = States.KEYWORD;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_TI:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'm'){
+                            state = States.KEYWORD_TIM;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_TIM:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 'e'){
+                            state = States.KEYWORD_TIME;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_TIME:
+                        scannedString += scannedSymbol;
+                        if(scannedSymbol == 's'){
+                            state = States.KEYWORD;
+                        }
+                        else if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
+                            state = States.ID;
+                        }
+                        else{
                             state = States.INVALID_ID;
                         }
                         break;
                     case States.ID:
+                        scannedString += scannedSymbol;
                         if(thisCharIsLowerCaseLetter(scannedSymbol) || thisCharIsADigit(scannedSymbol)){
-                            scannedString += scannedSymbol;
                             state = States.ID;
                         }
                         else{
-                            scannedString += scannedSymbol;
                             state = States.INVALID_ID;
                         }
                         break;
@@ -628,9 +671,12 @@ namespace application
                         scannedString += scannedSymbol;
                         state = States.INVALID_ID;
                         break;
+                    case States.GENERIC_ERROR:
+                        scannedString += scannedSymbol;
+                        break;
                     default:
                         scannedString += scannedSymbol;
-                        state = States.INVALID_ID;
+                        state = States.GENERIC_ERROR;
                         break;
                 }
             }
@@ -807,7 +853,7 @@ namespace application
         }
         override
         public string ToString(){
-            return "Lexeme: " + lexeme + " Type: " + tokenType.ToString();
+            return "Lexeme: " + lexeme + " \t Type: " + tokenType.ToString();
         }
     }
     enum Type {ID, CONSTANT, STRING, KEYWORD, SPECIAL_SYMBOL, ERROR};
@@ -825,9 +871,11 @@ namespace application
         KEYWORD_A, KEYWORD_AM, KEYWORD_AME, KEYWORD_AMER, KEYWORD_AMERI, KEYWORD_AMERIC,
         KEYWORD_AG, KEYWORD_AGA, KEYWORD_AGAI,
         KEYWORD_AN,
-        KEYWORD_G, KEYWORD_GR, KEYWORD_GRE, KEYWORD_GREA, 
+        KEYWORD_G, KEYWORD_GR, KEYWORD_GRE, KEYWORD_GREA,
+        KEYWORD_I, 
         KEYWORD_M, KEYWORD_MA, KEYWORD_MO, KEYWORD_MAK, KEYWORD_MOR, 
-        KEYWORD_P, KEYWORD_PR, KEYWORD_PRO, KEYWORD_PROG, KEYWORD_PROGR, KEYWORD_PROGRA, KEYWORD_PROGRAM, KEYWORD_PROGRAMM, KEYWORD_PROGRAMMI, KEYWORD_PROGRAMMIN,
+        KEYWORD_P, KEYWORD_PL, KEYWORD_PLU, KEYWORD_PR, KEYWORD_PRO, KEYWORD_PROG, KEYWORD_PROGR, KEYWORD_PROGRA, KEYWORD_PROGRAM, KEYWORD_PROGRAMM, KEYWORD_PROGRAMMI, KEYWORD_PROGRAMMIN,
+        KEYWORD_T, KEYWORD_TE, KEYWORD_TEL, KEYWORD_TI, KEYWORD_TIM, KEYWORD_TIME,
         SOMETHING_ELSE
     }
 }
