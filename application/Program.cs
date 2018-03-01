@@ -62,15 +62,35 @@ namespace application
                             scannedString += (char)reader.Read();
                             state = States.STRING_INVALID;
                         }
-                        else if(reader.Peek() == 77 || reader.Peek() == 109){
-                            //m detected, check for keywords 'make' and 'more'
-                            if(reader.Peek() == 77){
+                        else if(64 < reader.Peek() && reader.Peek() < 91){
+                            //uppercase letter checking for first lertters of Keywords
+                            if(reader.Peek() == 65){
                                 scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_A;
+                            }
+                            else if(reader.Peek() == 77){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_M;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if(96 < reader.Peek() && reader.Peek() < 123){
+                            //lowercase letter checking for first lertters of Keywords
+                            if(reader.Peek() == 97){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_A;
+                            }
+                            else if(reader.Peek() == 109){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_M;
                             }
                             else{
                                 scannedString += (char)reader.Read();
+                                state = States.ID;
                             }
-                            state = States.KEYWORD_M;
                         }
                         else if(47 < reader.Peek() && reader.Peek() < 58){
                             scannedString += (char)reader.Read();
@@ -170,6 +190,296 @@ namespace application
                         else{
                             scannedString += (char)reader.Read();
                             state = States.CONSTANT_ERROR;
+                        }
+                        break;
+                    case States.KEYWORD:
+                         if(64 < reader.Peek() && reader.Peek() < 91){
+                            scannedString += getLowerCaseofNextLetter();
+                            state = States.ID;
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            scannedString += (char)reader.Read();
+                            state = States.ID;
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_A:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==71){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AG;
+                            }
+                            else if(reader.Peek()==77){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AM;
+                            }
+                            else if(reader.Peek()==78){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AN;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==103){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AG;
+                            }
+                            else if(reader.Peek()==109){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AM;
+                            }
+                            else if(reader.Peek()==110){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AN;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AG:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==65){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AGA;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==97){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AGA;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AGA:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==73){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AGAI;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==105){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AGAI;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AGAI:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==78){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==110){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AM:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==69){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AME;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==101){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AME;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AME:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==82){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AMER;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==114){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AMER;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AMER:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==73){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AMERI;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==105){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AMERI;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AMERI:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==67){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD_AMERIC;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==99){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD_AMERIC;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AMERIC:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==65){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==97){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
+                        }
+                        break;
+                    case States.KEYWORD_AN:
+                        if(64 < reader.Peek() && reader.Peek() < 91){
+                            if(reader.Peek()==68){
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += getLowerCaseofNextLetter();
+                                state = States.ID;
+                            }
+                        }
+                        else if((96 < reader.Peek() && reader.Peek() < 123) ||(47 < reader.Peek() && reader.Peek() < 58)){
+                            if(reader.Peek()==100){
+                                scannedString += (char)reader.Read();
+                                state = States.KEYWORD;
+                            }
+                            else{
+                                scannedString += (char)reader.Read();
+                                state = States.ID;
+                            }
+                        }
+                        else{
+                            scannedString += (char)reader.Read();
+                            state = States.INVALID_ID;
                         }
                         break;
                     case States.KEYWORD_M:
@@ -568,6 +878,9 @@ namespace application
         ID,
         INVALID_ID,
         KEYWORD,
+        KEYWORD_A, KEYWORD_AM, KEYWORD_AME, KEYWORD_AMER, KEYWORD_AMERI, KEYWORD_AMERIC,
+        KEYWORD_AG, KEYWORD_AGA, KEYWORD_AGAI,
+        KEYWORD_AN,
         KEYWORD_M, KEYWORD_MA, KEYWORD_MO, KEYWORD_MAK, KEYWORD_MOR, 
         SOMETHING_ELSE
     }
