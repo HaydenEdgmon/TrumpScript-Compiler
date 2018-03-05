@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 
 namespace application
@@ -9,12 +10,14 @@ namespace application
         static void Main(string[] args)
         {
             StreamReader sr = new StreamReader("toParse.txt");
+            Bookkeeper bk = new Bookkeeper();
             Token token;
             while(sr.Peek() != -1){
-                application.Scanner theScanner = new application.Scanner(sr);
+                application.Scanner theScanner = new application.Scanner(sr, bk);
                 token = theScanner.detectToken();
                 Console.WriteLine(token.ToString());
             }
+            bk.printSymTab();
             sr.Close();
             Console.WriteLine("Hello World!");
         }
@@ -23,11 +26,12 @@ namespace application
     class Scanner{
         States state = States.INITIAL_STATE;
         StreamReader reader;
+        Bookkeeper bookkeeper;
         string thisToken = "It Worked!";
-        int currentLength = 0;
         Token scannedToken;
-        public Scanner(StreamReader passedReader){
+        public Scanner(StreamReader passedReader, Bookkeeper passedBookkeeper){
             reader = passedReader;
+            bookkeeper = passedBookkeeper;
         }
         public void printToken(){
             Console.WriteLine(thisToken);
@@ -642,16 +646,20 @@ namespace application
                     if(scannedString == "1000000"){
                         state = States.CONSTANT_ERROR;
                         scannedToken = new Token(state.ToString(), Type.ERROR);
+                        
                     }
                     else{
                         scannedToken = new Token(scannedString, Type.CONSTANT); 
+                        bookkeeper.addToken(scannedToken);
                     }
                 }
                 else if(state == States.STRING_VALID){
                     scannedToken = new Token(scannedString, Type.STRING); 
+                    bookkeeper.addToken(scannedToken);
                 }
                 else if(state == States.ID){
                     scannedToken = new Token(scannedString, Type.ID); 
+                    bookkeeper.addToken(scannedToken);
                 }
                 else if(state == States.SPECIAL_CHARACTER){
                     scannedToken = new Token(scannedString, Type.SPECIAL_SYMBOL); 
@@ -685,83 +693,7 @@ namespace application
                 || (currentState == States.SPECIAL_CHARACTER)
                 || (currentState.ToString().Substring(0, 7) == "KEYWORD");
         }
-        public bool checkKeyword(){
-            bool isKeyword = false;
-
-
-            return isKeyword;
-        }
-        public string checkConstant(){
-            string constString = "";
-            while(reader.Peek() != 32){
-                if((char)reader.Peek() =='1'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='2'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='3'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='4'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='5'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='6'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='7'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='8'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='9'){
-                    currentLength++;
-                    constString = constString + (char)reader.Read();
-                }
-                else if((char)reader.Peek() =='0'){
-                    if(currentLength < 1){
-                        //make error type
-                        constString = "#*ERROR*#";
-                        break;
-                    }
-                    else{
-                        currentLength++;
-                        constString = constString + (char)reader.Read();
-                    }
-                }
-                else if(nextCharIsSpecial()){
-                    break;
-                }
-                else{
-                    constString = "#*ERROR*#";
-                    break;
-                    //make error type
-                    //not a constant, return error
-                }
-            }
-            if(constString.Length < 7){
-                constString = "#*ERROR*#";
-            }
-            else if(constString == "1000000"){
-               // Console.Write("1000000 ");
-                constString = "#*ERROR*#";
-            }
-            //check token seperators
-            return constString;
-           
-        }
+        
         public char getLowerCaseofNextLetter(){
             char returnChar = (char)(reader.Read() + 32);
             return returnChar;
@@ -818,21 +750,7 @@ namespace application
             }
             return isSpecial;
         }
-        public string checkString(){
-            string returnString = "\"";
-            reader.Read();
-            while(reader.Peek() != 34){
-                if(nextCharIsSpecial()){
-                    //detected end of token before quotation wasx closed
-                    return "#*ERROR*#";
-                }
-                else{
-                    returnString = returnString + (char)reader.Read();
-                }
-            }
-            returnString = returnString + "\"";
-            return returnString;
-        }
+       
         public void processComment(){
             reader.ReadLine();
         }
@@ -866,6 +784,35 @@ namespace application
             return "Lexeme: " + lexeme + " Type: " + tokenType.ToString();
         }
     }
+
+    class Bookkeeper{
+        List<Token> SymTab = new List<Token>();
+        
+        public Bookkeeper(){
+            setCapacity();
+        }
+        public bool peviouslyAdded(Token t){
+            bool wasPreviouslyAdded = SymTab.Contains(t);
+            return wasPreviouslyAdded;
+        }
+
+        public void addToken(Token tokenToAdd){
+            if(!SymTab.Contains(tokenToAdd)){
+                SymTab.Add(tokenToAdd);
+            }
+        }
+        public void setCapacity(){
+            SymTab.Capacity = 100;
+        }
+
+        public void printSymTab(){
+            Console.WriteLine("SYMTAB: ");
+            for(int i = 0; i < SymTab.Count; i++){
+                Console.WriteLine(SymTab[i].ToString());
+            }
+        }
+    }
+
     enum Type {ID, CONSTANT, STRING, KEYWORD, SPECIAL_SYMBOL, ERROR};
     enum States{
         INITIAL_STATE,
