@@ -10,10 +10,19 @@ namespace application
         static void Main(string[] args)
         {
             StreamReader sr = new StreamReader("toParse.txt");
+            while(sr.Peek() != -1){
+                Console.Write((char)sr.Read());
+            }
+            Console.WriteLine("");
+            Console.WriteLine("=======================================");
+            Console.WriteLine("SCANNER Output: ");
+            sr.DiscardBufferedData();
+            sr.BaseStream.Seek(0, System.IO.SeekOrigin.Begin); 
             Bookkeeper bk = new Bookkeeper();
+            ErrorHandler er = new ErrorHandler();
             Token token;
             while(sr.Peek() != -1){
-                application.Scanner theScanner = new application.Scanner(sr, bk);
+                application.Scanner theScanner = new application.Scanner(sr, bk, er);
                 token = theScanner.detectToken();
                 Console.WriteLine(token.ToString());
             }
@@ -27,11 +36,13 @@ namespace application
         States state = States.INITIAL_STATE;
         StreamReader reader;
         Bookkeeper bookkeeper;
+        ErrorHandler errorHandler;
         string thisToken = "It Worked!";
         Token scannedToken;
-        public Scanner(StreamReader passedReader, Bookkeeper passedBookkeeper){
+        public Scanner(StreamReader passedReader, Bookkeeper passedBookkeeper, ErrorHandler passedErrorHandler){
             reader = passedReader;
             bookkeeper = passedBookkeeper;
+            errorHandler = passedErrorHandler;
         }
         public void printToken(){
             Console.WriteLine(thisToken);
@@ -1044,7 +1055,7 @@ namespace application
                     if(scannedString == "1000000"){
                         state = States.CONSTANT_ERROR;
                         scannedToken = new Token(state.ToString(), Type.ERROR);
-                        
+                        errorHandler.printErrorForThisState(state);
                     }
                     else{
                         scannedToken = new Token(scannedString, Type.CONSTANT); 
@@ -1072,8 +1083,8 @@ namespace application
                 }
             }
             else{
-                //print error here?
                 scannedToken = new Token(state.ToString(), Type.ERROR);
+                errorHandler.printErrorForThisState(state);
             }
             return scannedToken;
         }
@@ -1211,6 +1222,30 @@ namespace application
         }
     }
 
+    class ErrorHandler{
+        public ErrorHandler(){
+            
+        }
+        KeyValuePair<string, object>[] errorOutputs = {
+            new KeyValuePair<string,object>( "GENERIC_ERROR", "Trump doesn't want to hearit." ),
+            new KeyValuePair<string,object>( "CONSTANT_ERROR", "I'm really rich, part of the beauty of meis I'm very rich."),
+            new KeyValuePair<string,object>( "INVALID_ID", "This is a country where we speak English.")
+        };
+        public void printErrorForThisState(States stateToPrintErrorFor){
+            if(stateToPrintErrorFor.ToString() == "GENERIC_ERROR"){
+                printErrorTest(0);
+            }
+            else if(stateToPrintErrorFor.ToString() == "CONSTANT_ERROR"){
+                printErrorTest(1);
+            }
+            else if(stateToPrintErrorFor.ToString() == "INVALID_ID"){
+                printErrorTest(2);
+            }
+        }
+        public void printErrorTest(int indexOfError){
+            Console.WriteLine(errorOutputs[indexOfError].Value);
+        }
+    }
     class Bookkeeper{
         List<Token> SymTab = new List<Token>();
         
