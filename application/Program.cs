@@ -37,6 +37,7 @@ namespace application
             Console.WriteLine("=======================================");
             Console.WriteLine("SYMTAB Content: ");
             bk.printSymTab();
+            Console.WriteLine("=======================================");
             sr.Close();
         }
     }
@@ -1363,8 +1364,10 @@ namespace application
                         printToken();
                     }
                     else{
-                        //if state is not exactly "KEYWORD", it is an ID, print
+                        //if state is not exactly "KEYWORD", it is an ID
+                        //ask bookkeeper to add to SymTab and print
                         scannedToken = new Token(scannedString, Type.ID);
+                        bookkeeper.addToken(scannedToken);
                         printToken();
                     }
                 }
@@ -1581,6 +1584,7 @@ namespace application
             for(int i = 0; i < SymTab.Count; i++){
                 if(SymTab[i].Lexeme == tokenToAdd.Lexeme){
                     found = true;
+                    break;
                 }
             }
             if(!found){
