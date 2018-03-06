@@ -11,5 +11,5 @@ If ,x plus (y ) times 2000000 more z?;:tell a b say "stop" ! else : make c boole
 C is not not not fact and x less z? or lie
 Tell a b c x y z 
 Say "done" # say done
-! america2
+!
 America is great

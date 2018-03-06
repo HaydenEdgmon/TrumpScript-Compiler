@@ -9,6 +9,8 @@ namespace application
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("=======================================");
+            Console.WriteLine("Source Program: ");
             StreamReader sr = new StreamReader("toParse.txt");
             while(sr.Peek() != -1){
                 Console.Write((char)sr.Read());
@@ -24,11 +26,11 @@ namespace application
             while(sr.Peek() != -1){
                 application.Scanner theScanner = new application.Scanner(sr, bk, er);
                 token = theScanner.detectToken();
-                Console.WriteLine(token.ToString());
             }
+            Console.WriteLine("=======================================");
+            Console.WriteLine("SYMTAB Content: ");
             bk.printSymTab();
             sr.Close();
-            Console.WriteLine("Hello World!");
         }
     }
 
@@ -37,7 +39,6 @@ namespace application
         StreamReader reader;
         Bookkeeper bookkeeper;
         ErrorHandler errorHandler;
-        string thisToken = "It Worked!";
         Token scannedToken;
         public Scanner(StreamReader passedReader, Bookkeeper passedBookkeeper, ErrorHandler passedErrorHandler){
             reader = passedReader;
@@ -45,7 +46,7 @@ namespace application
             errorHandler = passedErrorHandler;
         }
         public void printToken(){
-            Console.WriteLine(thisToken);
+            Console.WriteLine(scannedToken.ToString());
         }
         public void printPeek(){
             Console.WriteLine((char)reader.Read());
@@ -1060,25 +1061,31 @@ namespace application
                     else{
                         scannedToken = new Token(scannedString, Type.CONSTANT); 
                         bookkeeper.addToken(scannedToken);
+                        printToken();
                     }
                 }
                 else if(state == States.STRING_VALID){
                     scannedToken = new Token(scannedString, Type.STRING); 
                     bookkeeper.addToken(scannedToken);
+                    printToken();
                 }
                 else if(state == States.ID){
                     scannedToken = new Token(scannedString, Type.ID); 
                     bookkeeper.addToken(scannedToken);
+                    printToken();
                 }
                 else if(state == States.SPECIAL_CHARACTER){
                     scannedToken = new Token(scannedString, Type.SPECIAL_SYMBOL); 
+                    printToken();
                 }
                 else if(state.ToString().Substring(0, 7) == "KEYWORD"){
                     if(state.ToString() == "KEYWORD"){
                         scannedToken = new Token(scannedString, Type.KEYWORD);
+                        printToken();
                     }
                     else{
                         scannedToken = new Token(scannedString, Type.ID);
+                        printToken();
                     }
                 }
             }
@@ -1218,7 +1225,12 @@ namespace application
         }
         override
         public string ToString(){
-            return "Lexeme: " + lexeme + " \t Type: " + tokenType.ToString();
+            if(lexeme.Length < 7){
+                return "Lexeme: " + lexeme + " \t\t Type: " + tokenType.ToString();
+            }
+            else{
+                return "Lexeme: " + lexeme + " \t Type: " + tokenType.ToString();
+            }
         }
     }
 
@@ -1227,9 +1239,9 @@ namespace application
             
         }
         KeyValuePair<string, object>[] errorOutputs = {
-            new KeyValuePair<string,object>( "GENERIC_ERROR", "Trump doesn't want to hearit." ),
-            new KeyValuePair<string,object>( "CONSTANT_ERROR", "I'm really rich, part of the beauty of meis I'm very rich."),
-            new KeyValuePair<string,object>( "INVALID_ID", "This is a country where we speak English.")
+            new KeyValuePair<string,object>( "GENERIC_ERROR", "Any other erro: Trump doesn't want to hearit." ),
+            new KeyValuePair<string,object>( "CONSTANT_ERROR", "[const] error: I'm really rich, part of the beauty of meis I'm very rich."),
+            new KeyValuePair<string,object>( "INVALID_ID", "[id] error: This is a country where we speak English.")
         };
         public void printErrorForThisState(States stateToPrintErrorFor){
             if(stateToPrintErrorFor.ToString() == "GENERIC_ERROR"){
@@ -1273,8 +1285,6 @@ namespace application
         }
 
         public void printSymTab(){
-            Console.WriteLine("=======================================");
-            Console.WriteLine("SYMTAB Content: ");
             for(int i = 0; i < SymTab.Count; i++){
                 Console.WriteLine(SymTab[i].ToString());
             }
