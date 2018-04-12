@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using Scanners;
-using CompilerHelpers;
 
+using CompilerHelpers;
+using Parsers;
 
 namespace Application
 {
@@ -26,19 +26,17 @@ namespace Application
             sr.DiscardBufferedData();
             sr.BaseStream.Seek(0, System.IO.SeekOrigin.Begin); 
             //create bookkeeper and error handler 
-            Bookkeeper bk = new Bookkeeper();
-            ErrorHandler er = new ErrorHandler();
-            Token token;
-            while(sr.Peek() != -1){
-                //call new scanner for every detected Token
-                Scanner theScanner = new Scanner(sr, bk, er);
-                //scan and return a token from the scanner
-                token = theScanner.detectToken();
-            }
+                    // Token token;
+                    // while(sr.Peek() != -1){
+                    //     //call new scanner for every detected Token
+                    //     Scanner theScanner = new Scanner(sr, bk, er);
+                    //     //scan and return a token from the scanner
+                    //     token = theScanner.detectToken();
+                    // }
             //output conents of the symble table in the Bookkeeper
             Console.WriteLine("=======================================");
             Console.WriteLine("SYMTAB Content: ");
-            bk.printSymTab();
+                    // bk.printSymTab();
             Console.WriteLine("=======================================");
             sr.Close();
         }
