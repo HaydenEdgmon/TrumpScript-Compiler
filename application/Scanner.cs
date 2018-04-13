@@ -1292,52 +1292,52 @@ namespace Scanners{
                         //1,000,000 not valid go to constant error
                         state = States.CONSTANT_ERROR;
                         scannedToken = new Token(state.ToString(), LexemeType.ERROR);
-                        errorHandler.printErrorForThisState(state);
+                        //errorHandler.printErrorForThisState(state);
                     }
                     else{
                         //valid CONSTANT, ask Bookkeeper to put in SymTab and print
                         scannedToken = new Token(scannedString, LexemeType.CONSTANT); 
                         bookkeeper.addToken(scannedToken);
-                        printToken();
+                        //printToken();
                     }
                 }
                 else if(state == States.STRING_VALID){
                     //valid STRING, ask Bookkeeper to put in SymTab and print
                     scannedToken = new Token(scannedString, LexemeType.STRING); 
                     bookkeeper.addToken(scannedToken);
-                    printToken();
+                    //printToken();
                 }
                 else if(state == States.ID){
                     //valid ID, ask Bookkeeper to put in SymTab and print
                     scannedToken = new Token(scannedString, LexemeType.ID); 
                     bookkeeper.addToken(scannedToken);
-                    printToken();
+                    //printToken();
                 }
                 else if(state == States.SPECIAL_CHARACTER){
                     //special character, print
                     scannedToken = new Token(scannedString, LexemeType.SPECIAL_SYMBOL); 
-                    printToken();
+                    //printToken();
                 }
                 //all states containing "KEYWORD" are valid
                 else if(state.ToString().Substring(0, 7) == "KEYWORD"){
                     // only states containing exactly "KEYWORD" are a KEYWORD, print
                     if(state.ToString() == "KEYWORD"){
                         scannedToken = new Token(scannedString, LexemeType.KEYWORD);
-                        printToken();
+                        //printToken();
                     }
                     else{
                         //if state is not exactly "KEYWORD", it is an ID
                         //ask bookkeeper to add to SymTab and print
                         scannedToken = new Token(scannedString, LexemeType.ID);
                         bookkeeper.addToken(scannedToken);
-                        printToken();
+                        //printToken();
                     }
                 }
             }
             else{
                 //unaccepts states are ERRORS, print them
                 scannedToken = new Token(state.ToString(), LexemeType.ERROR);
-                errorHandler.printErrorForThisState(state);
+                //errorHandler.printErrorForThisState(state);
             }
             return scannedToken;
         }

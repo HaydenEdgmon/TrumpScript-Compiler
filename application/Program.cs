@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using CompilerHelpers;
 using Parsers;
+using Scanners;
 
 namespace Application
 {
@@ -11,6 +12,9 @@ namespace Application
     {
         static void Main(string[] args)
         {
+                    // Bookkeeper bk = new Bookkeeper();
+                    // ErrorHandler er = new ErrorHandler();
+                    // Token token;
             //outputing source program
             Console.WriteLine("=======================================");
             Console.WriteLine("Source Program: ");
@@ -25,8 +29,9 @@ namespace Application
             //reset stream to 0 index to allow SCANNER to scan
             sr.DiscardBufferedData();
             sr.BaseStream.Seek(0, System.IO.SeekOrigin.Begin); 
+            Parser parser = new Parser(sr);
+            parser.parseProgram();
             //create bookkeeper and error handler 
-                    // Token token;
                     // while(sr.Peek() != -1){
                     //     //call new scanner for every detected Token
                     //     Scanner theScanner = new Scanner(sr, bk, er);
