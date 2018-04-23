@@ -328,7 +328,7 @@ namespace Parsers{
                         break;
                     case 37:
                         if(scanNewLookahead){lookahead = getLookahead();}
-                        if(lookahead == 4 || lookahead == 11 ||  lookahead == 13 || lookahead == 14 || lookahead == 16 || lookahead == 17){
+                        if(lookahead == 4 || lookahead == 1 ||  lookahead == 13 || lookahead == 14 || lookahead == 16 || lookahead == 17){
                             printAction(parserStack.Peek(), lookahead, "rule 4: pop(<stmts>), push(<more-stmts>, ;, <stmt>)");
                             parserStack.Pop();
                             parserStack.Push(38);
@@ -339,12 +339,11 @@ namespace Parsers{
                         break;
                     case 38:
                         if(scanNewLookahead){lookahead = getLookahead();}
-                        if(lookahead == 4 || lookahead == 11 ||  lookahead == 13 || lookahead == 14 || lookahead == 16 || lookahead == 17){
+                        if(lookahead == 4 || lookahead == 1 ||  lookahead == 13 || lookahead == 14 || lookahead == 16 || lookahead == 17){
                             printAction(parserStack.Peek(), lookahead, "rule 5: push(;, <stmt>)");
-                            parserStack.Pop();
-                            parserStack.Push(38);
                             parserStack.Push(28);
                             parserStack.Push(39);
+
                             scanNewLookahead = false;
                         }
                         else if(lookahead == 8){
@@ -359,6 +358,30 @@ namespace Parsers{
                             printAction(parserStack.Peek(), lookahead, "rule 7: pop(<stmt>), push(<decl>)");
                             parserStack.Pop();
                             parserStack.Push(40);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 1){
+                            printAction(parserStack.Peek(), lookahead, "rule 8: pop(<stmt>), push(<asmt>)");
+                            parserStack.Pop();
+                            parserStack.Push(42);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 13){
+                            printAction(parserStack.Peek(), lookahead, "rule 9: pop(<stmt>), push(<cond>)");
+                            parserStack.Pop();
+                            parserStack.Push(43);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 14){
+                            printAction(parserStack.Peek(), lookahead, "rule 10: pop(<stmt>), push(<loop>)");
+                            parserStack.Pop();
+                            parserStack.Push(44);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 16 || lookahead == 17){
+                            printAction(parserStack.Peek(), lookahead, "rule 9: pop(<stmt>), push(<output>)");
+                            parserStack.Pop();
+                            parserStack.Push(45);
                             scanNewLookahead = false;
                         }
                         break;
@@ -389,6 +412,14 @@ namespace Parsers{
                         }
                         break;
                     case 42:
+                        if(lookahead == 1){
+                            printAction(parserStack.Peek(), lookahead, "rule 15: pop(<asmt>), push(<expr>, is, [id])");
+                            parserStack.Pop();
+                            parserStack.Push(48);
+                            parserStack.Push(9);
+                            parserStack.Push(1);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 43:
                         break;
@@ -422,6 +453,18 @@ namespace Parsers{
                         }
                         break;
                     case 48:
+                        if(lookahead == 18 || lookahead == 19 || lookahead == 20 || lookahead == 23 || lookahead == 9 || lookahead == 24){
+                            printAction(parserStack.Peek(), lookahead, "rule 23: pop(<expr>), push(<bool>)");
+                            parserStack.Pop();
+                            parserStack.Push(49);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 1 || lookahead == 2 || lookahead == 32){
+                            printAction(parserStack.Peek(), lookahead, "rule 24: pop(<expr>), push(<arith>)");
+                            parserStack.Pop();
+                            parserStack.Push(52);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 49:
                         break;
@@ -481,6 +524,7 @@ namespace Parsers{
         private int getLookahead(){
             Scanner scanner = new Scanner(reader, bk, er);
             Token lookahead = scanner.detectToken();
+            //Console.WriteLine(parserStack.Peek() + " lookahead: " + lookahead.Lexeme);
             return getIntegerCodeofToken(lookahead);
         }
         private void addDictionaryDefinitions(){
