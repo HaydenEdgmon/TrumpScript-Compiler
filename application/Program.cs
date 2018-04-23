@@ -45,8 +45,6 @@ namespace Application
             Console.WriteLine("=======================================");
             sr.Close();
         }
-    }
-    //Scanner class, usesstate and scanned symbol to detect 5 types of tokens
-    
+    }   
     
 }
