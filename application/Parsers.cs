@@ -28,7 +28,7 @@ namespace Parsers{
             Boolean scanNewLookahead = true;
             //Boolean errorDetected = false;
             while(reader.Peek() != -1){
-                
+                Console.WriteLine(scanNewLookahead);
                 switch(parserStack.Peek()){
                     case 0:
                         printAction(parserStack.Peek(), -1, "Push(<Trump>)");
@@ -453,6 +453,9 @@ namespace Parsers{
                         }
                         break;
                     case 48:
+                        Console.WriteLine("here");
+                        if(scanNewLookahead){lookahead = getLookahead(); Console.WriteLine("there");}
+                        Console.WriteLine("everywhere");
                         if(lookahead == 18 || lookahead == 19 || lookahead == 20 || lookahead == 23 || lookahead == 9 || lookahead == 24){
                             printAction(parserStack.Peek(), lookahead, "rule 23: pop(<expr>), push(<bool>)");
                             parserStack.Pop();
@@ -524,7 +527,7 @@ namespace Parsers{
         private int getLookahead(){
             Scanner scanner = new Scanner(reader, bk, er);
             Token lookahead = scanner.detectToken();
-            //Console.WriteLine(parserStack.Peek() + " lookahead: " + lookahead.Lexeme);
+            Console.WriteLine(parserStack.Peek() + " lookahead: " + lookahead.Lexeme);
             return getIntegerCodeofToken(lookahead);
         }
         private void addDictionaryDefinitions(){
