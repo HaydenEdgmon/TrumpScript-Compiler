@@ -28,7 +28,6 @@ namespace Parsers{
             Boolean scanNewLookahead = true;
             //Boolean errorDetected = false;
             while(reader.Peek() != -1){
-                Console.WriteLine(scanNewLookahead);
                 switch(parserStack.Peek()){
                     case 0:
                         printAction(parserStack.Peek(), -1, "Push(<Trump>)");
@@ -453,9 +452,7 @@ namespace Parsers{
                         }
                         break;
                     case 48:
-                        Console.WriteLine("here");
-                        if(scanNewLookahead){lookahead = getLookahead(); Console.WriteLine("there");}
-                        Console.WriteLine("everywhere");
+                        if(scanNewLookahead){lookahead = getLookahead();}
                         if(lookahead == 18 || lookahead == 19 || lookahead == 20 || lookahead == 23 || lookahead == 9 || lookahead == 24){
                             printAction(parserStack.Peek(), lookahead, "rule 23: pop(<expr>), push(<bool>)");
                             parserStack.Pop();
@@ -470,14 +467,89 @@ namespace Parsers{
                         }
                         break;
                     case 49:
+                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(lookahead == 18){
+                            printAction(parserStack.Peek(), lookahead, "rule 25: pop(<bool>), push(<bool-tail>, fact)");
+                            parserStack.Pop();
+                            parserStack.Push(50);
+                            parserStack.Push(18);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 19){
+                            printAction(parserStack.Peek(), lookahead, "rule 26: pop(<bool>), push(<bool-tail>, lie)");
+                            parserStack.Pop();
+                            parserStack.Push(50);
+                            parserStack.Push(19);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 20){
+                            printAction(parserStack.Peek(), lookahead, "rule 27: pop(<bool>), push(<bool>, not)");
+                            parserStack.Pop();
+                            parserStack.Push(49);
+                            parserStack.Push(20);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 19){
+                            printAction(parserStack.Peek(), lookahead, "rule 28: pop(<bool>), push(?, <bool>, <boot>, <test>)");
+                            parserStack.Pop();
+                            parserStack.Push(31);
+                            parserStack.Push(49);
+                            parserStack.Push(49);
+                            parserStack.Push(51);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 50:
                         break;
                     case 51:
                         break;
                     case 52:
+                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(lookahead == 1){
+                            printAction(parserStack.Peek(), lookahead, "rule 35: pop(<arith>), push(<arith-tail>, [id])");
+                            parserStack.Pop();
+                            parserStack.Push(53);
+                            parserStack.Push(1);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 2){
+                            printAction(parserStack.Peek(), lookahead, "rule 36: pop(<arith>), push(<arith-tail>, [const])");
+                            parserStack.Pop();
+                            parserStack.Push(53);
+                            parserStack.Push(2);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 32){
+                            printAction(parserStack.Peek(), lookahead, "rule 37: pop(<arith>), push(<arith-tail>, ( , <arith> , ))");
+                            parserStack.Pop();
+                            parserStack.Push(53);
+                            parserStack.Push(33);
+                            parserStack.Push(52);
+                            parserStack.Push(32);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 53:
+                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(lookahead == 25){
+                            printAction(parserStack.Peek(), lookahead, "rule 38: pop(<arith-tail>), push(<arith>, plus)");
+                            parserStack.Pop();
+                            parserStack.Push(52);
+                            parserStack.Push(25);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 26){
+                            printAction(parserStack.Peek(), lookahead, "rule 39: pop(<arith-tail>), push(<arith>, times)");
+                            parserStack.Pop();
+                            parserStack.Push(52);
+                            parserStack.Push(26);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 28 || lookahead == 1 || lookahead == 2 || lookahead == 32 || lookahead == 31 || lookahead == 33 ){
+                            printAction(parserStack.Peek(), lookahead, "rule 40: pop(<arith-tail>), epsilon)");
+                            parserStack.Pop();
+                            scanNewLookahead = false;
+                        }
                         break;
                     default:
                         //errorDetected = true;
