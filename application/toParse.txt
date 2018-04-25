@@ -7,8 +7,8 @@ A is fact; b  is lie;
 As long as, fact or lie;
 :
 Tell x y1 z2zz; say "continue";
-If ,x plus (y ) times 2000000 more z?;:tell a b; say "stop"; ! else : make c boolean; !;
-C is not not not fact and x less z?; 
+If , more x plus (y ) times 2000000 more z?;:tell a b; say "stop"; ! else : make c boolean; !;
+C is not not not fact and less x z?; 
 Tell a b c x y z ;
 Say "done"; # say done
 !;

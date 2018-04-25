@@ -24,7 +24,7 @@ namespace Parsers{
         }
         public void parseProgram(){
             int lookahead = -1;
-            
+            Token token = new Token();
             Boolean scanNewLookahead = true;
             //Boolean errorDetected = false;
             while(reader.Peek() != -1){
@@ -34,7 +34,10 @@ namespace Parsers{
                         parserStack.Push(34);
                         break;
                     case 1:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 1){
                             printAction(parserStack.Peek(), lookahead, "matching, pop([ID])");
                             parserStack.Pop();
@@ -42,7 +45,10 @@ namespace Parsers{
                         }
                         break;
                     case 2:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 2){
                             printAction(parserStack.Peek(), lookahead, "matching, pop([CONSTANT])");
                             parserStack.Pop();
@@ -50,7 +56,10 @@ namespace Parsers{
                         }
                         break;
                     case 3:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 3){
                             printAction(parserStack.Peek(), lookahead, "matching, pop([STRING])");
                             parserStack.Pop();
@@ -58,7 +67,10 @@ namespace Parsers{
                         }
                         break;
                     case 4:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(make))");
                             parserStack.Pop();
@@ -66,7 +78,10 @@ namespace Parsers{
                         }
                         break;
                     case 5:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 5){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(america)");
                             parserStack.Pop();
@@ -74,7 +89,10 @@ namespace Parsers{
                         }
                         break;
                     case 6:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 6){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(great)");
                             parserStack.Pop();
@@ -82,7 +100,10 @@ namespace Parsers{
                         }
                         break;
                     case 7:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 7){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(again)");
                             parserStack.Pop();
@@ -90,7 +111,10 @@ namespace Parsers{
                         }
                         break;
                     case 8:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 8){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(america)");
                             parserStack.Pop();
@@ -98,7 +122,10 @@ namespace Parsers{
                         }
                         break;
                     case 9:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 9){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(is)");
                             parserStack.Pop();
@@ -106,7 +133,10 @@ namespace Parsers{
                         }
                         break;
                     case 10:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 10){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(else)");
                             parserStack.Pop();
@@ -114,7 +144,10 @@ namespace Parsers{
                         }
                         break;
                     case 11:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 11){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(number)");
                             parserStack.Pop();
@@ -122,7 +155,10 @@ namespace Parsers{
                         }
                         break;
                     case 12:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 12){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(boolean)");
                             parserStack.Pop();
@@ -130,7 +166,10 @@ namespace Parsers{
                         }
                         break;
                     case 13:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 13){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(if)");
                             parserStack.Pop();
@@ -138,7 +177,10 @@ namespace Parsers{
                         }
                         break;
                     case 14:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 14){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(as)");
                             parserStack.Pop();
@@ -146,7 +188,10 @@ namespace Parsers{
                         }
                         break;
                     case 15:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 15){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(long)");
                             parserStack.Pop();
@@ -154,7 +199,10 @@ namespace Parsers{
                         }
                         break;
                     case 16:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 16){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(tell)");
                             parserStack.Pop();
@@ -162,7 +210,10 @@ namespace Parsers{
                         }
                         break;
                     case 17:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 17){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(say)");
                             parserStack.Pop();
@@ -170,7 +221,10 @@ namespace Parsers{
                         }
                         break;
                     case 18:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 18){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(fact)");
                             parserStack.Pop();
@@ -178,7 +232,10 @@ namespace Parsers{
                         }
                         break;
                     case 19:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 19){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(lie)");
                             parserStack.Pop();
@@ -186,7 +243,10 @@ namespace Parsers{
                         }
                         break;
                     case 20:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 20){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(not)");
                             parserStack.Pop();
@@ -194,7 +254,10 @@ namespace Parsers{
                         }
                         break;
                     case 21:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 21){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(and)");
                             parserStack.Pop();
@@ -202,7 +265,10 @@ namespace Parsers{
                         }
                         break;
                     case 22:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 22){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(or)");
                             parserStack.Pop();
@@ -210,23 +276,33 @@ namespace Parsers{
                         }
                         break;
                     case 23:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 23){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(less)");
                             parserStack.Pop();
+                            Console.WriteLine(parserStack.Peek());
                             scanNewLookahead = true;
                         }
                         break;
                     case 24:
-                        if(scanNewLookahead){lookahead = getLookahead();}
-                        if(lookahead == 23){
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 24){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(more)");
                             parserStack.Pop();
                             scanNewLookahead = true;
                         }
                         break;
                     case 25:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 25){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(plus)");
                             parserStack.Pop();
@@ -234,23 +310,33 @@ namespace Parsers{
                         }
                         break;
                     case 26:
-                        if(scanNewLookahead){lookahead = getLookahead();}
-                        if(lookahead == 23){
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 26){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(times)");
                             parserStack.Pop();
                             scanNewLookahead = true;
                         }
                         break;
                     case 27:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 27){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( , )");
                             parserStack.Pop();
+                            //Console.WriteLine(parserStack.Peek());
                             scanNewLookahead = true;
                         }
                         break;
                     case 28:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 28){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( ; )");
                             parserStack.Pop();
@@ -258,7 +344,10 @@ namespace Parsers{
                         }
                         break;
                     case 29:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 29){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( : )");
                             parserStack.Pop();
@@ -266,7 +355,10 @@ namespace Parsers{
                         }
                         break;
                     case 30:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 30){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( ! )");
                             parserStack.Pop();
@@ -274,7 +366,10 @@ namespace Parsers{
                         }
                         break;
                     case 31:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 31){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( ? )");
                             parserStack.Pop();
@@ -282,7 +377,10 @@ namespace Parsers{
                         }
                         break;
                     case 32:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 32){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( ( )");
                             parserStack.Pop();
@@ -290,7 +388,10 @@ namespace Parsers{
                         }
                         break;
                     case 33:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 33){
                             printAction(parserStack.Peek(), lookahead, "matching, pop( ) )");
                             parserStack.Pop();
@@ -298,7 +399,10 @@ namespace Parsers{
                         }
                         break;
                     case 34:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4){
                             printAction(parserStack.Peek(), lookahead, "rule 1: pop(<Trump>), push(<last>, <stmts>, <first>)");
                             parserStack.Pop();
@@ -312,7 +416,10 @@ namespace Parsers{
                         }
                         break;
                     case 35:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4){
                             printAction(parserStack.Peek(), lookahead, "rule 2: pop(<first>), push(again, great, america, make)");
                             parserStack.Pop();
@@ -326,7 +433,10 @@ namespace Parsers{
                     case 36:
                         break;
                     case 37:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4 || lookahead == 1 ||  lookahead == 13 || lookahead == 14 || lookahead == 16 || lookahead == 17){
                             printAction(parserStack.Peek(), lookahead, "rule 4: pop(<stmts>), push(<more-stmts>, ;, <stmt>)");
                             parserStack.Pop();
@@ -337,7 +447,10 @@ namespace Parsers{
                         }
                         break;
                     case 38:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4 || lookahead == 1 ||  lookahead == 13 || lookahead == 14 || lookahead == 16 || lookahead == 17){
                             printAction(parserStack.Peek(), lookahead, "rule 5: push(;, <stmt>)");
                             parserStack.Push(28);
@@ -352,7 +465,10 @@ namespace Parsers{
                         }
                         break;
                     case 39:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4){
                             printAction(parserStack.Peek(), lookahead, "rule 7: pop(<stmt>), push(<decl>)");
                             parserStack.Pop();
@@ -385,7 +501,10 @@ namespace Parsers{
                         }
                         break;
                     case 40:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 4){
                             printAction(parserStack.Peek(), lookahead, "rule 12: pop(<decl>), push(<type>, <ids>, make)");
                             parserStack.Pop();
@@ -396,7 +515,10 @@ namespace Parsers{
                         }
                         break;
                     case 41:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 11){
                             printAction(parserStack.Peek(), lookahead, "rule 13: pop(<type>), push(number)");
                             parserStack.Pop();
@@ -411,6 +533,10 @@ namespace Parsers{
                         }
                         break;
                     case 42:
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 1){
                             printAction(parserStack.Peek(), lookahead, "rule 15: pop(<asmt>), push(<expr>, is, [id])");
                             parserStack.Pop();
@@ -421,38 +547,108 @@ namespace Parsers{
                         }
                         break;
                     case 43:
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 13){
+                            printAction(parserStack.Peek(), lookahead, "rule 16: pop(<cond>), push(! , <stmts>, : , else, ! , <stmts>, : , ; , <bool>, , , if)");
+                            parserStack.Pop();
+                            parserStack.Push(30);
+                            parserStack.Push(37);
+                            parserStack.Push(29);
+                            parserStack.Push(10);
+                            parserStack.Push(30);
+                            parserStack.Push(37);
+                            parserStack.Push(29);
+                            parserStack.Push(28);
+                            parserStack.Push(49);
+                            parserStack.Push(27);
+                            parserStack.Push(13);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 44:
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 14){
+                            printAction(parserStack.Peek(), lookahead, "rule 17: pop(<loop>), push(! , <stmts>, : , ; , <bool>, , , as, long, as)");
+                            parserStack.Pop();
+                            parserStack.Push(30);
+                            parserStack.Push(37);
+                            parserStack.Push(29);
+                            parserStack.Push(28);
+                            parserStack.Push(49);
+                            parserStack.Push(27);
+                            parserStack.Push(14);
+                            parserStack.Push(15);
+                            parserStack.Push(14);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 45:
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 16){
+                            printAction(parserStack.Peek(), lookahead, "rule 18: pop(<output>), push(<ids>, tell)");
+                            parserStack.Pop();
+                            parserStack.Push(46);
+                            parserStack.Push(16);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 17){
+                            printAction(parserStack.Peek(), lookahead, "rule 19: pop(<output>), push([string], say)");
+                            parserStack.Pop();
+                            parserStack.Push(3);
+                            parserStack.Push(17);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 46:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 1){
                             printAction(parserStack.Peek(), lookahead, "rule 20: pop(<ids>), push(<more-ids>, [id])");
                             parserStack.Pop();
+                            
                             parserStack.Push(47);
+                            
                             parserStack.Push(1);
+                            
                             scanNewLookahead = false;
                         }
                         break;
                     case 47:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 1){
                             printAction(parserStack.Peek(), lookahead, "rule 21: pop(<more-ids>), push(<more-ids>, [id])");
                             parserStack.Pop();
+                            
                             parserStack.Push(47);
                             parserStack.Push(1);
+                            
                             scanNewLookahead = false;
                         }
-                        else if(lookahead == 11 || lookahead == 12 || lookahead == 26){
+                        else if(lookahead == 11 || lookahead == 12 || lookahead == 28){
                             printAction(parserStack.Peek(), lookahead, "rule 22: pop(<more-ids>)");
                             parserStack.Pop();
                             scanNewLookahead = false;
                         }
                         break;
                     case 48:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 18 || lookahead == 19 || lookahead == 20 || lookahead == 23 || lookahead == 9 || lookahead == 24){
                             printAction(parserStack.Peek(), lookahead, "rule 23: pop(<expr>), push(<bool>)");
                             parserStack.Pop();
@@ -467,7 +663,10 @@ namespace Parsers{
                         }
                         break;
                     case 49:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 18){
                             printAction(parserStack.Peek(), lookahead, "rule 25: pop(<bool>), push(<bool-tail>, fact)");
                             parserStack.Pop();
@@ -489,22 +688,72 @@ namespace Parsers{
                             parserStack.Push(20);
                             scanNewLookahead = false;
                         }
-                        else if(lookahead == 19){
+                        else if(lookahead == 23 || lookahead == 9 || lookahead == 24){
                             printAction(parserStack.Peek(), lookahead, "rule 28: pop(<bool>), push(?, <bool>, <boot>, <test>)");
                             parserStack.Pop();
                             parserStack.Push(31);
-                            parserStack.Push(49);
-                            parserStack.Push(49);
+                            parserStack.Push(52);
+                            parserStack.Push(52);
                             parserStack.Push(51);
                             scanNewLookahead = false;
                         }
                         break;
                     case 50:
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 21){
+                            printAction(parserStack.Peek(), lookahead, "rule 29: pop(<bool-tail>), push(<bool>, and)");
+                            parserStack.Pop();
+                            parserStack.Push(49);
+                            parserStack.Push(21);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 22){
+                            printAction(parserStack.Peek(), lookahead, "rule 30: pop(<bool-tail>), push(<bool>, or)");
+                            parserStack.Pop();
+                            parserStack.Push(49);
+                            parserStack.Push(22);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 28){
+                            printAction(parserStack.Peek(), lookahead, "rule 31: pop(<bool-tail>)");
+                            parserStack.Pop();
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 51:
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 23){
+                            printAction(parserStack.Peek(), lookahead, "rule 32: pop(<bool-tail>), push(less)");
+                            parserStack.Pop();
+                            parserStack.Push(23);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 9){
+                            printAction(parserStack.Peek(), lookahead, "rule 33: pop(<bool-tail>), push(is)");
+                            parserStack.Pop();
+                            parserStack.Push(9);
+                            scanNewLookahead = false;
+                        }
+                        else if(lookahead == 24){
+                            printAction(parserStack.Peek(), lookahead, "rule 34: pop(<bool-tail>), push(more)");
+                            parserStack.Pop();
+                            //Console.WriteLine(parserStack.Peek());
+                            parserStack.Push(24);
+                            //Console.WriteLine(parserStack.Peek());
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 52:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 1){
                             printAction(parserStack.Peek(), lookahead, "rule 35: pop(<arith>), push(<arith-tail>, [id])");
                             parserStack.Pop();
@@ -530,7 +779,10 @@ namespace Parsers{
                         }
                         break;
                     case 53:
-                        if(scanNewLookahead){lookahead = getLookahead();}
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
                         if(lookahead == 25){
                             printAction(parserStack.Peek(), lookahead, "rule 38: pop(<arith-tail>), push(<arith>, plus)");
                             parserStack.Pop();
@@ -596,11 +848,13 @@ namespace Parsers{
             }
             return returnInt;
         }
-        private int getLookahead(){
-            Scanner scanner = new Scanner(reader, bk, er);
-            Token lookahead = scanner.detectToken();
-            Console.WriteLine(parserStack.Peek() + " lookahead: " + lookahead.Lexeme);
+        private int getLookahead(Token lookahead){
+            //Console.WriteLine(parserStack.Peek() + " lookahead: " + lookahead.Lexeme);
             return getIntegerCodeofToken(lookahead);
+        }
+        private Token getLookaheadToken(){
+            Scanner scanner = new Scanner(reader, bk, er);
+            return scanner.detectToken();
         }
         private void addDictionaryDefinitions(){
             dictionary.Add( -1, "-none-");

@@ -8,6 +8,10 @@ namespace CompilerHelpers{
         string lexeme;
         LexemeType tokenType;
         //constructor
+        public Token(){
+            lexeme = "error";
+            tokenType = LexemeType.ERROR;
+        }
         public Token(string passedLexeme, LexemeType passedType){
             lexeme = passedLexeme;
             tokenType = passedType;
