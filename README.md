@@ -9,4 +9,4 @@ Enumerations were used for States and Token types so that no eronious values cou
 
 ## Parser and Syntactic Analysis
 
-PDA implamentation of an LL(1) parser. the CFG was given to us as well as the LL(1) parse table. Implamentation done with a stack and the Scanner class, where the parser calls the Scanner to receive a lookaheads token and does not get a new one until the top of the stack and the lokkahead token match
+PDA implamentation of an LL(1) parser. The CFG was given to us as well as the LL(1) parse table. Implamentation done with a stack and the Scanner class, where the parser calls the scanner to receive a lookaheads token and does not get a new one until the top of the stack and the lookahead token match
