@@ -16,7 +16,7 @@ namespace Application
                     // ErrorHandler er = new ErrorHandler();
                     // Token token;
             //outputing source program
-            Console.WriteLine("=======================================");
+            Console.WriteLine("============================================================================");
             Console.WriteLine("Source Program: ");
             //creating single stream reader to be used throughout execution 
             StreamReader sr = new StreamReader("toParse.txt");
@@ -24,25 +24,18 @@ namespace Application
                 Console.Write((char)sr.Read());
             }
             Console.WriteLine("");
-            Console.WriteLine("=======================================");
+            Console.WriteLine("============================================================================");
             Console.WriteLine("SCANNER Output: ");
+            Console.WriteLine("Action # \tStack Top \tLOKAHEAD \tACTION");
+            Console.WriteLine("____________________________________________________________________________");
             //reset stream to 0 index to allow SCANNER to scan
             sr.DiscardBufferedData();
             sr.BaseStream.Seek(0, System.IO.SeekOrigin.Begin); 
+            //create Parser object and call parse program
             Parser parser = new Parser(sr);
             parser.parseProgram();
-            //create bookkeeper and error handler 
-                    // while(sr.Peek() != -1){
-                    //     //call new scanner for every detected Token
-                    //     Scanner theScanner = new Scanner(sr, bk, er);
-                    //     //scan and return a token from the scanner
-                    //     token = theScanner.detectToken();
-                    // }
-            //output conents of the symble table in the Bookkeeper
-            Console.WriteLine("=======================================");
-            Console.WriteLine("SYMTAB Content: ");
-                    // bk.printSymTab();
-            Console.WriteLine("=======================================");
+            
+            Console.WriteLine("============================================================================");
             sr.Close();
         }
     }   

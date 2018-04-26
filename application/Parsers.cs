@@ -1,3 +1,17 @@
+/*
+    Hayden Edgmon
+    Written for: CS 4323 Compiler Construction at The Univerity of Oklahoma
+
+    Parser requirements: 
+     * use of integer stack for PDA (named parserStack in implamentation below)
+     * integer codes for all terminals and non-terminals in PDA
+     * Parser called once in main()
+     * all parsing done in Parser
+     * use 0 as the stack bottom marker (pushed in Parser constructor)
+     * Parser calls Scanner when a new lookahead token is needed
+     * Scanner returns a Token to the parser
+ */
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -7,12 +21,14 @@ using Scanners;
 
 namespace Parsers{
     class Parser{
+        //private variables
         Stack<int> parserStack = new Stack<int>();
         StreamReader reader;
         Bookkeeper bk = new Bookkeeper();
         ErrorHandler er = new ErrorHandler();
         Dictionary<int, String> dictionary = new Dictionary<int, String>();
         int programStep = 0;
+        //constructors
         public Parser(){
             parserStack.Push(0);
             this.addDictionaryDefinitions();
@@ -22,18 +38,22 @@ namespace Parsers{
             parserStack.Push(0);
             this.addDictionaryDefinitions();
         }
+        //parser's main function, implamentation of PDA actions in theis method
         public void parseProgram(){
+            //set initial values for PDA
             int lookahead = -1;
             Token token = new Token();
             Boolean scanNewLookahead = true;
-            //Boolean errorDetected = false;
+            //read file until EoF 
             while(reader.Peek() != -1){
                 switch(parserStack.Peek()){
                     case 0:
+                        //first action, push <Trump>
                         printAction(parserStack.Peek(), -1, "Push(<Trump>)");
                         parserStack.Push(34);
                         break;
                     case 1:
+                        // [id] at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -45,6 +65,7 @@ namespace Parsers{
                         }
                         break;
                     case 2:
+                        // [const] at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -56,6 +77,7 @@ namespace Parsers{
                         }
                         break;
                     case 3:
+                        // [string] at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -67,6 +89,7 @@ namespace Parsers{
                         }
                         break;
                     case 4:
+                        // "make" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -78,6 +101,7 @@ namespace Parsers{
                         }
                         break;
                     case 5:
+                        // "programming" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -89,6 +113,7 @@ namespace Parsers{
                         }
                         break;
                     case 6:
+                        // "great" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -100,6 +125,7 @@ namespace Parsers{
                         }
                         break;
                     case 7:
+                        // "again" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -111,6 +137,7 @@ namespace Parsers{
                         }
                         break;
                     case 8:
+                        // "america" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -122,6 +149,7 @@ namespace Parsers{
                         }
                         break;
                     case 9:
+                        // "is" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -133,6 +161,7 @@ namespace Parsers{
                         }
                         break;
                     case 10:
+                        // "else" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -144,6 +173,7 @@ namespace Parsers{
                         }
                         break;
                     case 11:
+                        // "number" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -155,6 +185,7 @@ namespace Parsers{
                         }
                         break;
                     case 12:
+                        // "boolean" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -166,6 +197,7 @@ namespace Parsers{
                         }
                         break;
                     case 13:
+                        // "if" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -177,6 +209,7 @@ namespace Parsers{
                         }
                         break;
                     case 14:
+                        // "as" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -188,6 +221,7 @@ namespace Parsers{
                         }
                         break;
                     case 15:
+                        // "long" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -199,6 +233,7 @@ namespace Parsers{
                         }
                         break;
                     case 16:
+                        // "tell" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -210,6 +245,7 @@ namespace Parsers{
                         }
                         break;
                     case 17:
+                        // "say" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -221,6 +257,7 @@ namespace Parsers{
                         }
                         break;
                     case 18:
+                        // "fact at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -232,6 +269,7 @@ namespace Parsers{
                         }
                         break;
                     case 19:
+                        // "lie" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -243,6 +281,7 @@ namespace Parsers{
                         }
                         break;
                     case 20:
+                        // "not" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -254,6 +293,7 @@ namespace Parsers{
                         }
                         break;
                     case 21:
+                        // "and" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -265,6 +305,7 @@ namespace Parsers{
                         }
                         break;
                     case 22:
+                        // "or" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -276,6 +317,7 @@ namespace Parsers{
                         }
                         break;
                     case 23:
+                        // "less" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -283,11 +325,11 @@ namespace Parsers{
                         if(lookahead == 23){
                             printAction(parserStack.Peek(), lookahead, "matching, pop(less)");
                             parserStack.Pop();
-                            Console.WriteLine(parserStack.Peek());
                             scanNewLookahead = true;
                         }
                         break;
                     case 24:
+                        // "more" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -299,6 +341,7 @@ namespace Parsers{
                         }
                         break;
                     case 25:
+                        // "plus" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -310,6 +353,7 @@ namespace Parsers{
                         }
                         break;
                     case 26:
+                        // "times" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -321,6 +365,7 @@ namespace Parsers{
                         }
                         break;
                     case 27:
+                        // "," at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -333,6 +378,7 @@ namespace Parsers{
                         }
                         break;
                     case 28:
+                        // ";" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -344,6 +390,7 @@ namespace Parsers{
                         }
                         break;
                     case 29:
+                        // ":" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -355,6 +402,7 @@ namespace Parsers{
                         }
                         break;
                     case 30:
+                        // "!" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -366,6 +414,7 @@ namespace Parsers{
                         }
                         break;
                     case 31:
+                        // "?" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -377,6 +426,7 @@ namespace Parsers{
                         }
                         break;
                     case 32:
+                        // "(" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -388,6 +438,7 @@ namespace Parsers{
                         }
                         break;
                     case 33:
+                        // ")" at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -399,6 +450,7 @@ namespace Parsers{
                         }
                         break;
                     case 34:
+                        // <Trump> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -411,11 +463,9 @@ namespace Parsers{
                             parserStack.Push(35);
                             scanNewLookahead = false;
                         }
-                        else{
-                            //errorDetected = true;
-                        }
                         break;
                     case 35:
+                        // <first> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -431,8 +481,22 @@ namespace Parsers{
                         }
                         break;
                     case 36:
+                        // <last> at top of stack
+                        if(scanNewLookahead){
+                            token = getLookaheadToken();
+                            lookahead = getLookahead(token);
+                        }
+                        if(lookahead == 8){
+                            printAction(parserStack.Peek(), lookahead, "rule 3: pop(<last>), push(great, is, america)");
+                            parserStack.Pop();
+                            parserStack.Push(6);
+                            parserStack.Push(9);
+                            parserStack.Push(8);
+                            scanNewLookahead = false;
+                        }
                         break;
                     case 37:
+                        // <stmts> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -447,6 +511,7 @@ namespace Parsers{
                         }
                         break;
                     case 38:
+                        // <more-stmts> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -458,13 +523,14 @@ namespace Parsers{
 
                             scanNewLookahead = false;
                         }
-                        else if(lookahead == 8){
+                        else if(lookahead == 8 || lookahead == 30){
                             printAction(parserStack.Peek(), lookahead, "rule 6: pop(<more-stmts>)");
                             parserStack.Pop();
                             scanNewLookahead = false;
                         }
                         break;
                     case 39:
+                        // <stmt> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -501,6 +567,7 @@ namespace Parsers{
                         }
                         break;
                     case 40:
+                        // <decl> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -515,6 +582,7 @@ namespace Parsers{
                         }
                         break;
                     case 41:
+                        // <type> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -533,6 +601,7 @@ namespace Parsers{
                         }
                         break;
                     case 42:
+                        // <asmt> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -547,6 +616,7 @@ namespace Parsers{
                         }
                         break;
                     case 43:
+                        // <cond> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -569,6 +639,7 @@ namespace Parsers{
                         }
                         break;
                     case 44:
+                        // <loop> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -589,6 +660,7 @@ namespace Parsers{
                         }
                         break;
                     case 45:
+                        // <output> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -609,6 +681,7 @@ namespace Parsers{
                         }
                         break;
                     case 46:
+                        // <ids> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -625,6 +698,7 @@ namespace Parsers{
                         }
                         break;
                     case 47:
+                        // <more-ids> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -645,6 +719,7 @@ namespace Parsers{
                         }
                         break;
                     case 48:
+                        // <expr> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -663,6 +738,7 @@ namespace Parsers{
                         }
                         break;
                     case 49:
+                        // <bool> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -699,6 +775,7 @@ namespace Parsers{
                         }
                         break;
                     case 50:
+                        // <bool-tail> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -724,6 +801,7 @@ namespace Parsers{
                         }
                         break;
                     case 51:
+                        // <test> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -743,13 +821,12 @@ namespace Parsers{
                         else if(lookahead == 24){
                             printAction(parserStack.Peek(), lookahead, "rule 34: pop(<bool-tail>), push(more)");
                             parserStack.Pop();
-                            //Console.WriteLine(parserStack.Peek());
                             parserStack.Push(24);
-                            //Console.WriteLine(parserStack.Peek());
                             scanNewLookahead = false;
                         }
                         break;
                     case 52:
+                        // <arith> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -779,6 +856,7 @@ namespace Parsers{
                         }
                         break;
                     case 53:
+                        // <arith-tail> at top of stack
                         if(scanNewLookahead){
                             token = getLookaheadToken();
                             lookahead = getLookahead(token);
@@ -809,26 +887,31 @@ namespace Parsers{
                 }
                 
             }
+            Console.WriteLine("=======================================");
+            Console.WriteLine("SYMTAB Content: ");
+            bk.printSymTab();
         }
+        //Output the information for an action(if/else(s) for alignment in console)
         private void printAction(int stackTop, int passedLookahead, String action){
             if(dictionary[passedLookahead].Length > 7){
                 if(dictionary[stackTop].Length > 7){
-                    Console.WriteLine(programStep + "\t" + dictionary[stackTop] + "\t" + dictionary[passedLookahead] + "\t" + action);
+                    Console.WriteLine(programStep + "\t\t" + dictionary[stackTop] + "\t" + dictionary[passedLookahead] + "\t" + action);
                 }
                 else{
-                    Console.WriteLine(programStep + "\t" + dictionary[stackTop] + "\t\t" + dictionary[passedLookahead] + "\t" + action);
+                    Console.WriteLine(programStep + "\t\t" + dictionary[stackTop] + "\t\t" + dictionary[passedLookahead] + "\t" + action);
                 }
             }
             else{
                 if(dictionary[stackTop].Length > 7){
-                    Console.WriteLine(programStep + "\t" + dictionary[stackTop] + "\t" + dictionary[passedLookahead] + "\t\t" + action);
+                    Console.WriteLine(programStep + "\t\t" + dictionary[stackTop] + "\t" + dictionary[passedLookahead] + "\t\t" + action);
                 }
                 else{
-                    Console.WriteLine(programStep + "\t" + dictionary[stackTop] + "\t\t" + dictionary[passedLookahead] + "\t\t" + action);
+                    Console.WriteLine(programStep + "\t\t" + dictionary[stackTop] + "\t\t" + dictionary[passedLookahead] + "\t\t" + action);
                 }
             }
             programStep++;
         }
+        //looks up the dictionary integer value based on a Token object
         public int getIntegerCodeofToken(Token passedToken){
             int returnInt; 
             if(passedToken.TokenType == LexemeType.ID){
@@ -848,14 +931,16 @@ namespace Parsers{
             }
             return returnInt;
         }
+        //get integer lookahead for the scanned token
         private int getLookahead(Token lookahead){
-            //Console.WriteLine(parserStack.Peek() + " lookahead: " + lookahead.Lexeme);
             return getIntegerCodeofToken(lookahead);
         }
+        //get a token from the scanner
         private Token getLookaheadToken(){
             Scanner scanner = new Scanner(reader, bk, er);
             return scanner.detectToken();
         }
+        //dictionary of all terminals and non-terminals in PDA
         private void addDictionaryDefinitions(){
             dictionary.Add( -1, "-none-");
             dictionary.Add( 0, "Zo");
